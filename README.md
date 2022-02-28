@@ -5,9 +5,9 @@ Presuming the strings are a hex color code (eg. #FFFFFF = black) the front-end o
 # Created following a tutorial
 This code was implemented following a [tutorial from DappUniversity](https://www.youtube.com/watch?v=YPbgjPPC1d0)
 
-There were a few snags along the way as some of the tutorial is a couple of years old and some of the libraries were outdated.
+There were a few snags along the way as the tutorial is a couple of years old and some of the libraries were outdated.
 
-As of date of publishing this code is fully functional using the most up to date libraries.
+As of the date of publishing this code is fully functional using the most up to date libraries.
 
 # Libraries Used
 
