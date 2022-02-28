@@ -51,6 +51,15 @@ class App extends Component {
     }
   }
 
+  mint = (color) => {
+    this.state.contract.methods.mint(color).send({from:this.state.account})
+    .once('receipt', (receipt)=>{
+      this.setState({
+        colors: [...this.state.colors, color]
+      })
+    })
+  }
+
 
   constructor(props) {
     super(props)
@@ -84,15 +93,37 @@ class App extends Component {
           <div className="row">
             <main role="main" className="col-lg-12 d-flex text-center">
               <div className="content mr-auto ml-auto">
-                {/**/}
+                <h1>Issue Token</h1>
+                <form onSubmit={(event)=>{
+                  event.preventDefault()
+                  const color = this.color.value
+                  this.mint(color)
+                }}>
+                  <input
+                    type ='text'
+                    className= 'form-control mb-1'
+                    placeholder= 'e.g #FFFFFF'
+                    ref={(input)=> {this.color=input}}
+                  />
+                  <input
+                    type ='submit'
+                    className='btn btn-block btn-primary'
+                    value = 'Mint'
+                  />
+                </form>
               </div>
             </main>
           </div>
           <hr/>
           <div className = "row text-center">
-            <p>
-              Tokens go here...
-            </p>
+            { this.state.colors.map((color, key) => {
+              return(
+                <div key = {key} className ="col-md-3 mb-3">
+                  <div className = "token" style = {{backgroundColor:color}}></div>
+                  <div>{color}</div>
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>
