@@ -12,7 +12,9 @@ As of date of publishing this code is fully functional using the most up to date
 # Libraries Used
 
 [Open Zeppelin ERC721][1]
+
 [Web3][2]
+
 [React][3]
 
 [1]:https://github.com/OpenZeppelin/openzeppelin-contracts/tree/master/contracts/token/ERC721
