@@ -2,11 +2,10 @@
 
 pragma solidity ^0.8.0;
 
-//import "./ItemAccessControl.sol";
+import "./ItemAccessControl.sol";
 import "./ItemCoreInterface.sol";
 
-//potentially add ERC1155 inheritance here
-contract MinecraftItemBase {
+contract MinecraftItemBase is ItemAccessControl {
     struct Sword{
 
         /*
@@ -23,9 +22,11 @@ contract MinecraftItemBase {
         uint256 maxDurability;
         uint256 currentDurability;
 
-        //take enchantments in as a fixed-size uint256 array where index 0 corresponds to hasMending,
+        //take enchantments in as a fixed-size uint256 array where index 0 
+        //corresponds to hasMending,
         //index 1 corresponds to has CurseOfVanishing, etc.
-        //enchantments ordered by Max Level on https://minecraft.fandom.com/wiki/Sword
+        //enchantments ordered by Max Level on 
+        //https://minecraft.fandom.com/wiki/Sword
         uint256 hasMending;
         uint256 hasCurseOfVanishing;
         uint256 hasFireAspect;
@@ -48,8 +49,10 @@ contract MinecraftItemBase {
     mapping(uint256 => bool) public swordInGameStatus;
     mapping(uint256 => uint256) public swordIdToGlobalId;
     mapping(uint256 => uint256) public globalIdToSwordId;
-    address itemCoreAddress = 0x50754bC93566bd25792e974d613dEd8fa1442197;
     uint256 swordArray = 0;// index of sword array amongst other arrays
+
+    /*** GLOBAL VARIABLES ***/
+    address public itemCoreAddress;
 
     /*** ItemArrays ***/
     Sword[] public swords;
@@ -61,6 +64,7 @@ contract MinecraftItemBase {
         swordTypeToMaxDurability[316] = 1562;
         swordTypeToMaxDurability[322] = 33;
         swordTypeToMaxDurability[604] = 2032;
+        itemCoreAddress = initItemCoreAddress();
     }
 
     function mintSword(
@@ -216,7 +220,9 @@ contract MinecraftItemBase {
         );
     }
 
-    function validateSwordEnchantments(uint256[9] memory _enchantmentsList) private pure returns (bool){
+    function validateSwordEnchantments(
+        uint256[9] memory _enchantmentsList
+    ) private pure returns (bool){
         //each comparison number is the maximum level of its corresponding enchantment
         bool validEnchantments = true;
         if((_enchantmentsList[0]<0) || (_enchantmentsList[0]>1)){validEnchantments = false;}
@@ -260,4 +266,11 @@ contract MinecraftItemBase {
         return isValid;
     }
 
+    function initItemCoreAddress() private pure returns(address) {
+        return 0x73F2840f7EBf97f4C06865da7fbbBc83De2cE7D4;
+    }
+    
+    function updateItemCoreAddress(address _newItemCoreAddress) public onlyMinecraftExecutive{
+        itemCoreAddress = _newItemCoreAddress;
+    }
 }

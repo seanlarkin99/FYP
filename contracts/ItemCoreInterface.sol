@@ -3,6 +3,7 @@
 pragma solidity ^0.8.0;
 
 interface ItemCoreInterface{
+    
     function mint(
         address _gameContract, 
         address _userAddress, 
@@ -12,8 +13,14 @@ interface ItemCoreInterface{
         bool _activeInGame
     ) external returns (uint256);
 
-    function balanceOf(address _address, uint256 _tokenId) external view returns (uint256);
-    function getItemInformation(uint256 _tokenId) external view returns (address, uint256, uint256);
+    function balanceOf(
+        address _address, uint256 _tokenId
+    ) external view returns (uint256);
+
+    function getItemInformation(
+        uint256 _tokenId
+    ) external view returns (address, uint256, uint256);
+
     function updateItemInGameStatus(
         address _gameContract, 
         address _userAddress, 

@@ -8,11 +8,10 @@ import "./ItemAccessControl.sol";
 contract ItemCore is ERC1155, ItemAccessControl{
 
     struct itemIdentity{
-        //uint256 gameContractPrefix;//should be the address of the contract?
         address gameContractAddress;
         uint256 gameItemArray;
         uint256 gameItemArrayIndex;
-        bool activeInGame;//maybe this should be done at the game spec item contract?
+        bool activeInGame;
     }
 
     itemIdentity[] public items;
@@ -54,6 +53,10 @@ contract ItemCore is ERC1155, ItemAccessControl{
     ) public {
         require(!items[_tokenId].activeInGame, 
         "This item is active in game, please export the item before transferring it");
+        require(_from == msg.sender, 
+        "You do not own the account from which you are trying to transfer this token, you cannot transfer it");
+        require((balanceOf(_from, _tokenId)>0), 
+        "You do not own a sufficient amount of this token to transfer it.");
         _safeTransferFrom(_from, _to, _tokenId, _amount, "0x00");
     }
 
